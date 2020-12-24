@@ -12,8 +12,9 @@ def parse_rec(filename):
     for obj in tree.findall('object'):
         if obj.find('name') != 'drawer':
             obj_struct = {}
-            obj_struct['name'] = obj.find('name').text.split('_')[0].replace(
-                '-', '_')
+            # obj_struct['name'] = obj.find('name').text.split('_')[0].replace(
+            #     '-', '_')
+            obj_struct['name'] = obj.find('name').text
             if obj_struct['name'] == 'little_taro':
                 obj_struct['name'] = 'taro'
             elif obj_struct['name'] == 'mango_sharp_mouth':
