@@ -135,7 +135,7 @@ if __name__ == '__main__':
         with open(file, 'w') as f:
             json.dump(classes_pred[key], f)
 
-    with open('./foodname/target_name.txt', 'r') as f:
+    with open('./target_name.txt', 'r') as f:
         foodnames = f.read()
     foodnames = foodnames.split('\n')
 

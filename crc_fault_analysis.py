@@ -8,7 +8,9 @@ import cv2 as cv
 from collections import defaultdict
 
 '''
-parse_rec:品类是大类还是小类
+parse_rec:品类是大类还是小类；
+fp文件夹代表将其他物体识别成该物体；
+fn文件夹代表将该物体识别成其他物体
 '''
 def fps_fns_img(detfile,
                 imagenames,
@@ -237,7 +239,7 @@ if __name__ == '__main__':
     txt_files = glob.glob(os.path.join('./predict_result', '*.txt'))
     predict_classes = get_predict_classes(txt_files)
 
-    with open('./foodname/target_name.txt', 'r') as f:
+    with open('./target_name.txt', 'r') as f:
         badfood = f.read()
     badfood = badfood.split('\n')
     # badfood = ['apple']
@@ -248,7 +250,10 @@ if __name__ == '__main__':
     fns_class = defaultdict(set)
 
     for foodname in progressbar(badfood):
-        fps, fns = fps_fns_img(predict_classes[foodname], xml_files, foodname)
+        try:
+            fps, fns = fps_fns_img(predict_classes[foodname], xml_files, foodname)
+        except Exception :
+            continue
         for fp in fps:
             fp = fp.replace('.xml', '.jpg')
             path = os.path.join('./test_img_draw',
