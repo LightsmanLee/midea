@@ -116,8 +116,8 @@ if __name__ == '__main__':
         request_crc(xml_file, data, classes_pred)
 
     print('predict', classes_pred)
-    correct_coordinate(classes_pred)
     # 如果使用裁剪，则需要恢复坐标
+    correct_coordinate(classes_pred)
 
     for key in classes_pred:
         if not os.path.exists('./predict_result'):
@@ -141,7 +141,7 @@ if __name__ == '__main__':
                             use_07_metric=False)
             rec, prec, f1, ap = temp
             print(name, rec[-1], prec[-1], f1[-1], ap)
-            final_ap_result.append([name, rec, prec, f1, ap])
+            final_ap_result.append([name, rec[-1], prec[-1], f1[-1], ap])
         except:
             print(name, 0, 0, 0, 0)
     map += ap
