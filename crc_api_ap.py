@@ -158,6 +158,9 @@ if __name__ == '__main__':
             ])
         except:
             print(name, 0, 0, 0, 0)
+            final_ap_result.append([
+                name, gts_counts_dict[name], dets_counts_dict[name], 0,
+                0, 0, 0])
     map += ap
     final_ap_df = pd.DataFrame(final_ap_result,
                                columns=[

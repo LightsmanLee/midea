@@ -6,12 +6,13 @@ from progressbar import progressbar
 import xml.etree.ElementTree as ET
 import cv2 as cv
 from collections import defaultdict
-
 '''
 parse_rec:品类是大类还是小类；
 fp文件夹代表将其他物体识别成该物体；
 fn文件夹代表将该物体识别成其他物体
 '''
+
+
 def fps_fns_img(detfile,
                 imagenames,
                 classname,
@@ -174,18 +175,18 @@ def fps_fns_class(detfile,
                     if R['name'][jmax] == classname:
                         R['det'][jmax] = 1
                     else:
-                        print(R['name'][jmax])
-                        print(classname)
-                        fps_class[classname][R['name'][jmax]]+=1
-                        fns_class[R['name'][jmax]][classname]+=1
+                        # print(R['name'][jmax])
+                        # print(classname)
+                        fps_class[classname][R['name'][jmax]] += 1
+                        fns_class[R['name'][jmax]][classname] += 1
                 else:
-                    fps_class[classname][None]+=1
+                    fps_class[classname][None] += 1
         else:
-            fps_class[classname][None]+=1
+            fps_class[classname][None] += 1
     for key in class_recs:
         for x in range(len(class_recs[key]['det'])):
             if class_recs[key]['det'][x] == 0:
-                fns_class[class_recs[key]['name'][x]][None]+=1
+                fns_class[class_recs[key]['name'][x]][None] += 1
     return
 
 
@@ -248,13 +249,14 @@ if __name__ == '__main__':
 
     root = r'./test_img'
     xml_files = files_walk(root, '.xml')
-    fps_class=defaultdict(lambda: defaultdict(int))
-    fns_class=defaultdict(lambda: defaultdict(int))
+    fps_class = defaultdict(lambda: defaultdict(int))
+    fns_class = defaultdict(lambda: defaultdict(int))
 
     for foodname in progressbar(badfood):
         try:
-            fps, fns = fps_fns_img(predict_classes[foodname], xml_files, foodname)
-        except Exception :
+            fps, fns = fps_fns_img(predict_classes[foodname], xml_files,
+                                   foodname)
+        except Exception:
             continue
         for fp in fps:
             fp = fp.replace('.xml', '.jpg')
@@ -278,8 +280,8 @@ if __name__ == '__main__':
             cv.imwrite(newpath, img)
         fps_fns_class(predict_classes[foodname], xml_files, foodname)
 
-    with open('./faultpic/fps.json','w') as f:
-        json.dump(fps_class,f)
-    
-    with open('./faultpic/fns.json','w') as f:
-        json.dump(fns_class,f)
+    with open('./faultpic/fps.json', 'w') as f:
+        json.dump(fps_class, f)
+
+    with open('./faultpic/fns.json', 'w') as f:
+        json.dump(fns_class, f)
