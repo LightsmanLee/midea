@@ -174,16 +174,18 @@ def fps_fns_class(detfile,
                     if R['name'][jmax] == classname:
                         R['det'][jmax] = 1
                     else:
-                        fps_class[classname].add(R['name'][jmax])
-                        fns_class[R['name'][jmax]].add(classname)
+                        print(R['name'][jmax])
+                        print(classname)
+                        fps_class[classname][R['name'][jmax]]+=1
+                        fns_class[R['name'][jmax]][classname]+=1
                 else:
-                    fps_class[classname].add(None)
+                    fps_class[classname][None]+=1
         else:
-            fps_class[classname].add(None)
+            fps_class[classname][None]+=1
     for key in class_recs:
         for x in range(len(class_recs[key]['det'])):
             if class_recs[key]['det'][x] == 0:
-                fns_class[class_recs[key]['name'][x]].add(None)
+                fns_class[class_recs[key]['name'][x]][None]+=1
     return
 
 
@@ -246,8 +248,8 @@ if __name__ == '__main__':
 
     root = r'./test_img'
     xml_files = files_walk(root, '.xml')
-    fps_class = defaultdict(set)
-    fns_class = defaultdict(set)
+    fps_class=defaultdict(lambda: defaultdict(int))
+    fns_class=defaultdict(lambda: defaultdict(int))
 
     for foodname in progressbar(badfood):
         try:
@@ -275,3 +277,9 @@ if __name__ == '__main__':
                 os.makedirs(os.path.join('./faultpic', foodname, 'fn'))
             cv.imwrite(newpath, img)
         fps_fns_class(predict_classes[foodname], xml_files, foodname)
+
+    with open('./faultpic/fps.json','w') as f:
+        json.dump(fps_class,f)
+    
+    with open('./faultpic/fns.json','w') as f:
+        json.dump(fns_class,f)
