@@ -10,6 +10,7 @@ import cv2 as cv
 from collections import defaultdict
 import pandas as pd
 '''
+需要将图片放在test_img文件下面
 find_gts:名字是否是大类还是小类；
 evaluate_ap:parse_rec名字是否是大类还是小类
 
@@ -68,7 +69,7 @@ def find_gts(filename, gts_counts_dict):
     for obj in tree.findall('object'):
         if obj.find('name') != 'drawer':
             # foodname = obj.find('name').text.split('_')[0].replace('-', '_')
-            foodname = obj.find('name').text  #标记的为35类果蔬，没有子类
+            foodname = obj.find('name').text  # 标记的为35类果蔬，没有子类
             if foodname == 'little_taro':
                 foodname = 'taro'
             elif foodname == 'mango_sharp_mouth':
