@@ -6,6 +6,7 @@ from progressbar import progressbar
 import xml.etree.ElementTree as ET
 import cv2 as cv
 from collections import defaultdict
+
 '''
 parse_rec:品类是大类还是小类；
 fp文件夹代表将其他物体识别成该物体；

@@ -140,7 +140,7 @@ if __name__ == '__main__':
         foodnames = f.read()
     foodnames = foodnames.split('\n')
 
-    map = 0
+    # map = 0
     final_ap_result = []
     for name in progressbar(foodnames):
         print('\n')
@@ -161,7 +161,7 @@ if __name__ == '__main__':
             final_ap_result.append([
                 name, gts_counts_dict[name], dets_counts_dict[name], 0,
                 0, 0, 0])
-    map += ap
+        # map += ap
     final_ap_df = pd.DataFrame(final_ap_result,
                                columns=[
                                    'foodname', 'gts', 'dets', 'recall',
