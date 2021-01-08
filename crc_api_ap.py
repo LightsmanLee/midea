@@ -114,6 +114,7 @@ if __name__ == '__main__':
         for jpg_file in progressbar(jpg_files):
             xml_file = jpg_file.replace('.jpg', '.xml')
             img = cv.imread(jpg_file)
+            # img=img[190:670,120:1200,:]
             data = cv.imencode('.jpg', img)[1].tostring()
             # img_crop = img[190:670, 120:1200]  #[115:650,120:1200]
             # data = cv.imencode('.jpg', img_crop)[1].tostring()

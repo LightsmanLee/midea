@@ -89,6 +89,7 @@ if __name__ == '__main__':
     for jpg_file in progressbar(jpg_files):
         xml_file = jpg_file.replace('.jpg', '.xml')
         img = cv.imread(jpg_file)
+        # img=img[190:670,120:1200 ,:]
         with open(xml_file, 'r', encoding='utf-8') as file:
             xml_str = file.read()
         xml_parse = xmltodict.parse(xml_str)
